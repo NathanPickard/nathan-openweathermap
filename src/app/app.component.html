@@ -1,9 +1,55 @@
 <div fxLayout="column" fxLayoutAlign="center center">
   <h1>OpenWeatherMap Forecast</h1>
   <form [formGroup]="searchCityForm" (ngSubmit)="searchWeather()">
-    <mat-form-field>
+    <mat-form-field appearance="outline">
       <mat-label>Search city for weather</mat-label>
       <input matInput type="search" placeholder="Search location for weather" formControlName="cityQuery">
     </mat-form-field>
   </form>
+</div>
+
+<div *ngIf="foundCurrentWeather" fxLayout="column" fxLayoutAlign="center center">
+
+  <h2>Current Weather for {{ foundCurrentWeather.name }}</h2>
+
+  <div>
+
+    <mat-tab-group>
+      <mat-tab label="Current Weather">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>
+            </mat-card-title>
+          </mat-card-header>
+
+          <mat-card-content>
+            Temp: <h2>{{ foundCurrentWeather.main.temp | number:'1.0-0' }}&#8457;</h2>
+          </mat-card-content>
+
+        </mat-card>
+      </mat-tab>
+      <mat-tab label="5-Day Forecast">
+
+        <div fxLayoutGap="50px" fxLayout="column">
+
+          <div *ngFor="let forecast of foundForecast.list; let i = index">
+
+            <mat-card>
+              <mat-card-header>
+                <mat-card-title>
+                  {{ forecast.dt * 1000 | date:'mediumDate' }}
+                </mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                Temp: <h2>{{ forecast.temp.day | number:'1.0-0' }}&#8457;</h2>
+              </mat-card-content>
+            </mat-card>
+
+          </div>
+        </div>
+
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+
 </div>

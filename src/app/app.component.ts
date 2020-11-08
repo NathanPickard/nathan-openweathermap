@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormGroup, FormControl } from '@angular/forms';
 
 import { WeatherService } from './weather.service';
 
@@ -12,7 +12,8 @@ export class AppComponent {
   title = 'nathan-openweathermap';
 
   searchCityForm: FormGroup;
-  foundCurrentWeather: any[];
+  foundCurrentWeather: any;
+  foundForecast: any;
 
   constructor(private weatherService: WeatherService) { }
 
@@ -25,18 +26,21 @@ export class AppComponent {
   searchWeather() {
     const query = this.searchCityForm.value.cityQuery;
 
-    return this.weatherService.getCurrentWeather(query).subscribe(
+    return this.weatherService.getWeather(query).subscribe(
       data => this.handleSearchWeatherSuccess(data),
       error => this.handleError(error)
     );
   }
 
   handleSearchWeatherSuccess(data) {
-    this.foundCurrentWeather = data;
-    console.log(this.foundCurrentWeather);    
+    this.foundCurrentWeather = data[0];
+    this.foundForecast = data[1];
+    console.log(this.foundCurrentWeather);
+    console.log(this.foundForecast);
   }
 
   handleError(error) {
     console.log(error);
   }
+  
 }
