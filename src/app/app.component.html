@@ -1,3 +1,9 @@
-<div fxLayout="row" fxLayoutAlign="center center">
+<div fxLayout="column" fxLayoutAlign="center center">
   <h1>OpenWeatherMap Forecast</h1>
+  <form [formGroup]="searchCityForm" (ngSubmit)="searchWeather()">
+    <mat-form-field>
+      <mat-label>Search city for weather</mat-label>
+      <input matInput type="search" placeholder="Search location for weather" formControlName="cityQuery">
+    </mat-form-field>
+  </form>
 </div>
