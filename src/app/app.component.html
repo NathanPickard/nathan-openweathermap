@@ -3,7 +3,11 @@
   <form [formGroup]="searchCityForm" (ngSubmit)="searchWeather()">
     <mat-form-field appearance="outline">
       <mat-label>Search city for weather</mat-label>
-      <input matInput type="search" placeholder="Search location for weather" formControlName="cityQuery">
+      <input matInput type="search" placeholder="e.g., Portland, Beaverton" formControlName="cityQuery">
+      <button type="submit" mat-mini-fab matSuffix color="primary">
+        <mat-icon>search</mat-icon>
+        <!-- <mat-icon svgIcon="thumb-up"></mat-icon> -->
+      </button>
     </mat-form-field>
   </form>
 </div>
@@ -11,45 +15,61 @@
 <div *ngIf="foundCurrentWeather" fxLayout="column" fxLayoutAlign="center center">
 
   <h2>Current Weather for {{ foundCurrentWeather.name }}</h2>
+  <!-- <div style="width: 80%" fxLayoutAlign="center center" fxLayout="column"> -->
 
-  <div>
+  <mat-tab-group mat-align-tabs="center">
+    <mat-tab label="Current Weather">
 
-    <mat-tab-group>
-      <mat-tab label="Current Weather">
-        <mat-card>
-          <mat-card-header>
-            <mat-card-title>
-            </mat-card-title>
-          </mat-card-header>
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>
+            Today
+          </mat-card-title>
+          <mat-card-subtitle>
+          </mat-card-subtitle>
+        </mat-card-header>
 
-          <mat-card-content>
-            Temp: <h2>{{ foundCurrentWeather.main.temp | number:'1.0-0' }}&#8457;</h2>
-          </mat-card-content>
-
-        </mat-card>
-      </mat-tab>
-      <mat-tab label="5-Day Forecast">
-
-        <div fxLayoutGap="50px" fxLayout="column">
-
-          <div *ngFor="let forecast of foundForecast.list; let i = index">
-
-            <mat-card>
-              <mat-card-header>
-                <mat-card-title>
-                  {{ forecast.dt * 1000 | date:'mediumDate' }}
-                </mat-card-title>
-              </mat-card-header>
-              <mat-card-content>
-                Temp: <h2>{{ forecast.temp.day | number:'1.0-0' }}&#8457;</h2>
-              </mat-card-content>
-            </mat-card>
-
+        <mat-card-content>
+          <div fxLayout="row" fxLayoutAlign="center center">
+            <img src="http://openweathermap.org/img/wn/{{ foundCurrentWeather.weather[0].icon }}@2x.png">
+            {{ foundCurrentWeather.weather[0].description | titlecase}}
           </div>
-        </div>
+          Temp: <h2>{{ foundCurrentWeather.main.temp | number:'1.0-0' }}&#8457;</h2>
+        </mat-card-content>
 
-      </mat-tab>
-    </mat-tab-group>
-  </div>
+      </mat-card>
+    </mat-tab>
+
+    <mat-tab label="5-Day Forecast">
+
+      <div fxLayout="column">
+
+        <div *ngFor="let forecast of foundForecast.list; let i = index">
+
+          <mat-card>
+            <mat-card-header fxLayoutAlign="center center">
+              <mat-card-title>
+                {{ forecast.dt * 1000 | date:'mediumDate' }}
+              </mat-card-title>
+              <mat-card-subtitle>
+              </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <div fxLayout="row" fxLayoutAlign="center center">
+                <img src="http://openweathermap.org/img/wn/{{ forecast.weather[0].icon }}@2x.png">
+                {{ forecast.weather[0].description | titlecase }}
+              </div>
+              Temp: <h2>{{ forecast.temp.day | number:'1.0-0' }}&#8457;</h2>
+              High: <h2>{{ forecast.temp.max | number:'1.0-0' }}&#8457;</h2>
+              Low: <h2>{{ forecast.temp.min | number:'1.0-0' }}&#8457;</h2>
+              Feels like: <h2>{{ forecast.feels_like.day | number:'1.0-0' }}&#8457;</h2>
+            </mat-card-content>
+          </mat-card>
+
+        </div>
+      </div>
+
+    </mat-tab>
+  </mat-tab-group>
 
 </div>
