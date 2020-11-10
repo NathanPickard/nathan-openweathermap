@@ -9,7 +9,6 @@ import { WeatherService } from './weather.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'nathan-openweathermap';
 
   searchCityForm: FormGroup;
   foundCurrentWeather: any;
@@ -41,6 +40,7 @@ export class AppComponent {
 
   handleError(error) {
     console.log(error);
+    alert('Location not found, please try again');
   }
-  
+
 }
