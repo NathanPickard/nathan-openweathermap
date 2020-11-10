@@ -1,4 +1,4 @@
-# NathanOpenweathermap
+# Nathan - OpenWeatherMap
 
 A simple weather finding application that pulls up the current weather and 5-day forecast for a searched city.
 
